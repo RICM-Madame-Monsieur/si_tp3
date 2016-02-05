@@ -171,15 +171,84 @@ int main()
     // Todo 1 : Creation d'un nouveau buffer pour la couleur
     //==================================================
 
+    vector<vec4> colors;
+    colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
+    colors.push_back(vec4(0.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
+    colors.push_back(vec4(1.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 0.0f, 1.0f, 1.0f));
+
+    colors.push_back(vec4(0.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 0.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(0.0f, 0.0f, 1.0f, 1.0f));
+
+    colors.push_back(vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+    colors.push_back(vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    colors.push_back(vec4(1.0f, 1.0f, 0.0f, 1.0f));
+
+    GLuint colorBufferID;
+
+    // création d'un nouveau buffer
+    glGenBuffers(1, &colorBufferID);
+
+    // définition de celui-ci comme le buffer courant
+    glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
+
+    // recopie des données de "colors" dans le buffer courant
+    glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(vec4), colors.data(), GL_STATIC_DRAW);
+
+    GLuint colorPositionID = glGetAttribLocation(programID, "in_color");
 
     //==================================================
     // Todo 2 : Creation d'un nouveau buffer pour les indices
     //==================================================
 
+    vector<uint> indices;
+    indices.push_back(0);
+    indices.push_back(1);
+    indices.push_back(2);
+    indices.push_back(3);
+    indices.push_back(4);
+    indices.push_back(5);
 
+    GLuint indiceBufferID;
 
+    // création d'un nouveau buffer
+    glGenBuffers(1, &indiceBufferID);
+
+    // définition de celui-ci comme le buffer courant
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBufferID);
+
+    // recopie des données de "colors" dans le buffer courant
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), indices.data(), GL_STATIC_DRAW);
 
     //==================================================
     // Todo 3 : Creation des buffers avec le chargement d'un maillage
@@ -267,17 +336,21 @@ int main()
         // Todo : Activez les attributs que vous avez cree
         //==================================================
 
+        //  activation de l'attribut colorPositionID
+        glEnableVertexAttribArray(colorPositionID);
 
+        // Définition de colorBufferID comme le buffer courant
+        glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
 
-
-
-
-
-
-
-
-
-
+        // On indique comment lire les donnée
+        glVertexAttribPointer(
+            colorPositionID,
+            4,
+            GL_FLOAT,
+            GL_FALSE,
+            0,
+            (void*)0
+        );
 
         // Definition de vertexBufferID comme le buffer courant
         glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
@@ -297,6 +370,8 @@ int main()
         // Todo : Transmettre les buffers que vous avez cree
         //==================================================
 
+        // Definition de indiceBufferID comme le buffer courant
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBufferID);
          
 
 
@@ -311,7 +386,15 @@ int main()
         //==================================================
 
         // On dit a OpenGL de dessiner le contenu du buffer courant
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        //glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+        // Dessine les triangles
+        glDrawElements(
+            GL_TRIANGLES,
+            indices.size(),
+            GL_UNSIGNED_INT,
+            (void*)0
+        );
 
 
 
@@ -325,7 +408,7 @@ int main()
         // Todo : Desactivez les attributs que vous avez cree
         //=================================================
 
-
+        glDisableVertexAttribArray(colorPositionID);
 
 
 
@@ -364,7 +447,7 @@ int main()
     // Todo : Libérer TOUT les buffers que vous avez cree
     //==================================================
 
-
+    glDeleteBuffers(1, &colorBufferID);
 
 
 

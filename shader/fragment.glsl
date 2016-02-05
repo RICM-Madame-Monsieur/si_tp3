@@ -1,8 +1,10 @@
 // Version d'OpenGL
 #version 150
 
+// Données d'entrée
 in vec4 out_color;
 
+// Données de sortie
 out vec4 frag_color;
 
 // Fonction appellee pour chaque fragment
